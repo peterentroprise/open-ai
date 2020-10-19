@@ -7,7 +7,7 @@ app = FastAPI()
 class Item(BaseModel):
     text: str
 
-MODEL_PATH = "/gpt2"
+MODEL_PATH = "gpt2"
 MAX_LENGTH = 300
 NUM_RETURN_SEQUENCES = 1
 
