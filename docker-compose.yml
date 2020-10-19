@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  text-gen:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["/start-reload.sh"]
+    volumes:
+      - ./app:/app
+    ports:
+      - 8080:8080
+    env_file:
+      - .env
