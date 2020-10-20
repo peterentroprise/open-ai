@@ -4,7 +4,6 @@ steps:
     args:
         - "-c"
         - |
-            gcloud components update
             gcloud beta secrets versions access --secret=entro-production-docker-gcloud latest > service-account.json
   - name: gcr.io/cloud-builders/docker
     args:
