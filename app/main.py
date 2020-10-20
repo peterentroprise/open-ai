@@ -12,8 +12,8 @@ class Item(BaseModel):
     num_return_sequences: int = 1
 
 
-MODEL_PATH = "/gpt2"
-generator = pipeline("text-generation")
+MODEL_PATH = "/ml-models/gpt2"
+generator = pipeline("text-generation", model=MODEL_PATH)
 
 
 @app.get("/")

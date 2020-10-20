@@ -21,8 +21,8 @@ RUN gcloud auth activate-service-account --key-file=${GOOGLE_APPLICATION_CREDENT
 
 # copy models
 
-RUN mkdir ./app/ml-models
-RUN gsutil -m cp -R gs://entro-ml-models/gpt2 ./app
+RUN mkdir /ml-models
+RUN gsutil -m cp -R gs://entro-ml-models/gpt2 /ml-models
 
 # Install Python Dependencies
 COPY requirements.txt .
