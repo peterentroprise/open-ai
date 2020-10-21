@@ -19,15 +19,17 @@ ENV GOOGLE_APPLICATION_CREDENTIALS="service-account.json"
 
 RUN gcloud auth activate-service-account --key-file=${GOOGLE_APPLICATION_CREDENTIALS}
 
-# copy models
 
-RUN mkdir /ml-models
-RUN gsutil -m cp -R gs://entro-ml-models/gpt2 /ml-models
 
 # Install Python Dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 RUN rm requirements.txt
+
+# copy models
+
+RUN mkdir /ml-models
+RUN gsutil -m cp -R gs://entro-ml-models/gpt2 /ml-models
 
 ENV PORT 8080
 
