@@ -9,6 +9,7 @@ origins = [
     "https://entroprise.com/",
     "https://www.entroprise.com/",
     "http://entroprise.com/",
+    "http://entroprise.com",
     "http://localhost/",
     "http://localhost:8000/",
     "http://127.0.0.1:8000/",
