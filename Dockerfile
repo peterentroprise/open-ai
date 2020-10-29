@@ -1,7 +1,7 @@
 FROM tiangolo/uvicorn-gunicorn-fastapi:python3.8-slim AS base
 
 # Update OS libssl-dev libcurl4-openssl-dev python-dev python3-setuptools  curl gcc 
-RUN apt-get update && apt-get install gnupg2 curl -y
+RUN apt-get update && apt-get install gnupg2 -y
 # RUN ln -s /run/shm /dev/shm
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8 PYTHONUNBUFFERED=1
 RUN mkdir /svc
