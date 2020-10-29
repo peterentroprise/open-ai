@@ -31,7 +31,7 @@ class SumItem(BaseModel):
     max_length: int = Field(default='100', example='100')
 
 
-SUM_MODEL_PATH = "/ml-models/facebookbart-large-cnn"
+SUM_MODEL_PATH = "facebook-bart-large-cnn"
 
 summarizer = pipeline("summarization", model=SUM_MODEL_PATH,
                       tokenizer=SUM_MODEL_PATH)
