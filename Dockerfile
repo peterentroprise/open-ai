@@ -30,6 +30,7 @@ RUN rm requirements.txt
 
 RUN mkdir /ml-models
 RUN gsutil -m cp -R gs://entro-ml-models/gpt2 /ml-models
+RUN gsutil -m cp -R gs://entro-ml-models/facebookbart-large-cnn /ml-models
 
 ENV PORT 8080
 
