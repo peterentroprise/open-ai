@@ -1,4 +1,4 @@
-FROM tiangolo/uvicorn-gunicorn-fastapi:python3.8-slim
+FROM tiangolo/uvicorn-gunicorn-fastapi:python3.8-slim AS base
 
 # Update OS
 RUN apt-get update && apt-get install libssl-dev libcurl4-openssl-dev python-dev python3-setuptools gnupg2 curl gcc -y
@@ -20,13 +20,22 @@ ENV GOOGLE_APPLICATION_CREDENTIALS="service-account.json"
 
 RUN gcloud auth activate-service-account --key-file=${GOOGLE_APPLICATION_CREDENTIALS}
 
-
 # copy models
 RUN mkdir /ml-models
 
 # RUN gsutil -m cp -R gs://entro-ml-models/gpt2 /ml-models
 RUN gsutil -m cp -R gs://entro-ml-models/facebookbart-large-cnn /ml-models
 
-ENV PORT 8080
+#remove gcloud
+RUN apt-get remove google-cloud-sdk -y
 
-COPY ./app /app
+FROM tiangolo/uvicorn-gunicorn-fastapi:python3.8-slim
+
+ENV PORT 8080
+COPY --from=base /ml-models /ml-models
+COPY --from=base ./app /app
+
+# Install Python Dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+RUN rm requirements.txt
