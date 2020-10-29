@@ -5,11 +5,11 @@ RUN apt-get update && apt-get install libssl-dev libcurl4-openssl-dev python-dev
 RUN ln -s /run/shm /dev/shm
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8 PYTHONUNBUFFERED=1
 WORKDIR /
+RUN mkdir /svc
+COPY . /svc
+WORKDIR /svc
 
-# Install Python Dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-RUN rm requirements.txt
+RUN pip install wheel && pip wheel -r requirements.txt --wheel-dir=/svc/wheels
 
 #gcloud storage
 RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg  add - && apt-get update -y && apt-get install google-cloud-sdk -y
@@ -26,16 +26,17 @@ RUN mkdir /ml-models
 # RUN gsutil -m cp -R gs://entro-ml-models/gpt2 /ml-models
 RUN gsutil -m cp -R gs://entro-ml-models/facebookbart-large-cnn /ml-models
 
-#remove gcloud
-RUN apt-get remove google-cloud-sdk -y
-
 FROM tiangolo/uvicorn-gunicorn-fastapi:python3.8-slim
-
+ENV LANG=C.UTF-8 LC_ALL=C.UTF-8 PYTHONUNBUFFERED=1
+WORKDIR /
 ENV PORT 8080
+
 COPY --from=base /ml-models /ml-models
-COPY --from=base ./app /app
+COPY --from=base /app /app
+COPY --from=base /svc /svc
 
 # Install Python Dependencies
+
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-index --find-links=/svc/wheels -r requirements.txt
 RUN rm requirements.txt
