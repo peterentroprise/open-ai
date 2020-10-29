@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
-from transformers import pipeline, set_seed
+from pydantic import BaseModel, Field
+from transformers import pipeline
 
 app = FastAPI()
 
@@ -25,36 +25,22 @@ app.add_middleware(
 )
 
 
-# class Item(BaseModel):
-#     text: str
-#     seed: int = 32
-#     max_length: int = 300
-#     num_return_sequences: int = 1
-
 class SumItem(BaseModel):
     text: str
-    min_length: int = 10
-    max_length: int = 100
+    min_length: int = Field(default='10', example='10')
+    max_length: int = Field(default='100', example='100')
 
-
-
-# GEN_MODEL_PATH = "/ml-models/gpt2"
 
 SUM_MODEL_PATH = "/ml-models/facebookbart-large-cnn"
 
-# generator = pipeline("text-generation", model=GEN_MODEL_PATH)
-
-summarizer = pipeline("summarization", model=SUM_MODEL_PATH, tokenizer=SUM_MODEL_PATH)
+summarizer = pipeline("summarization", model=SUM_MODEL_PATH,
+                      tokenizer=SUM_MODEL_PATH)
 
 
 @app.get("/")
 def read_root():
     return {"Hello": "Universe"}
 
-# @app.post("/generate/")
-# def generate_text(item: Item):
-#     set_seed(item.seed)
-#     return generator(item.text, max_length=item.max_length, num_return_sequences=item.num_return_sequences)
 
 @app.post("/summarize/")
 def summarize_text(item: SumItem):

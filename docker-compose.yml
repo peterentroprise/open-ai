@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  text-gen:
+  summarization:
     build:
       context: .
       dockerfile: Dockerfile
