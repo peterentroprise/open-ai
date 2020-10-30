@@ -23,12 +23,13 @@ ENV GOOGLE_APPLICATION_CREDENTIALS="service-account.json"
 RUN gcloud auth activate-service-account --key-file=${GOOGLE_APPLICATION_CREDENTIALS}
 
 # Copy models
+ENV MODEL_NAME="sshleifer-distilbart-cnn-6-6"
 RUN mkdir /ml-models
-RUN gsutil -m cp -R gs://entro-ml-models/facebookbart-large-cnn /ml-models
+RUN gsutil -m cp -R gs://entro-ml-models/${MODEL_NAME} /ml-models
 
 
 ###########################
-### Build Phase
+### RUNTIME Phase
 ###########################
 
 # Base Image
