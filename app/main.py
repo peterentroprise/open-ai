@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from transformers import pipeline
 
-app = FastAPI()
+app = FastAPI(title="Summarization")
 
 origins = [
     "https://entroprise.com/",
