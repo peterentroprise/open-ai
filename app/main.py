@@ -33,10 +33,6 @@ class SumItem(BaseModel):
     max_length: int = Field(default='100', example='100')
 
 
-SUM_MODEL_PATH = "/ml-models/facebookbart-large-cnn"
-
-summarizer = pipeline("summarization", model=SUM_MODEL_PATH,
-                      tokenizer=SUM_MODEL_PATH)
 
 
 @app.get("/")
@@ -46,4 +42,9 @@ def read_root():
 
 @app.post("/summarize/")
 def summarize_text(item: SumItem):
+    SUM_MODEL_PATH = "/ml-models/facebookbart-large-cnn"
+
+    summarizer = pipeline("summarization", model=SUM_MODEL_PATH,
+                      tokenizer=SUM_MODEL_PATH)
+
     return summarizer(item.text, min_length=item.min_length, max_length=item.max_length)
