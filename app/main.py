@@ -27,7 +27,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-sample_text = " Tara is my friend"
+sample_text = "Tara is my friend"
 
 
 class InputItem(BaseModel):
