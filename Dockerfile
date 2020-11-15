@@ -23,9 +23,9 @@ ENV GOOGLE_APPLICATION_CREDENTIALS="service-account.json"
 RUN gcloud auth activate-service-account --key-file=${GOOGLE_APPLICATION_CREDENTIALS}
 
 # Copy models
-ENV MODEL_NAME="sshleifer-distilbart-cnn-6-6"
-RUN mkdir /ml-models
-RUN gsutil -m cp -R gs://entro-ml-models/${MODEL_NAME} /ml-models
+# ENV MODEL_NAME="sshleifer-distilbart-cnn-6-6"
+# RUN mkdir /ml-models
+# RUN gsutil -m cp -R gs://entro-ml-models/${MODEL_NAME} /ml-models
 
 
 ###########################
@@ -40,7 +40,7 @@ ENV LANG=C.UTF-8 LC_ALL=C.UTF-8 PYTHONUNBUFFERED=1
 ENV PORT 8080
 
 # Copy models, dependencies and code
-COPY --from=build /ml-models /ml-models
+# COPY --from=build /ml-models /ml-models
 COPY --from=build /svc /svc
 COPY ./app /app
 
