@@ -33,6 +33,9 @@ sample_text = " Tara is my friend"
 class InputItem(BaseModel):
     text: str = Field(default=sample_text, example=sample_text)
     max_tokens: int = Field(default=10, example=10)
+    temperature: int = Field(default=1, example=1)
+    top_p: int = Field(default=1, example=1)
+    n: int = Field(default=1, example=1)
 
 
 OPEN_AI_API_KEY = os.environ['OPEN_AI_API_KEY']
@@ -47,4 +50,4 @@ def read_root():
 @app.post("/davinci/")
 def generate_text(item: InputItem):
     return openai.Completion.create(
-        engine="davinci", prompt=item.text, max_tokens=item.max_tokens)
+        engine="davinci", prompt=item.text, max_tokens=item.max_tokens, temperature=item.temperature, top_p=item.top_p, n=item.n)
